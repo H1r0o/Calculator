@@ -2,7 +2,8 @@ const upperDisplay = document.getElementById("displayUpper");
 const lowerDisplay = document.getElementById("displayLower");
 const buttons = document.querySelectorAll("button");
 
-let value;
+let firstValue;
+let secondValue;
 
 // Dodanie listener do każdego przycisku / wyświetlanie danych na lowerDisplay
 buttons.forEach((button) => {
@@ -26,44 +27,63 @@ function displayFunc(event) {
 function specialKeys(event) {
     if (event.target.innerText === "DELETE") {
         lowerDisplay.innerText = "";
-        valueA = "";
+        firstValue = "";
+        secondValue = "";
+        upperDisplay.innerText = "";
     };
     if (event.target.innerText === "CLEAR") {
         lowerDisplay.innerText = lowerDisplay.innerText.slice(0, -1);
     };
-    if (event.target.innerText === "=") { // !! Musi zostać zamienione na funkcję
+    if (event.target.innerText === "=" && firstValue !== "" && secondValue !== "") { // !! Musi zostać zamienione na funkcję
         upperDisplay.innerText = lowerDisplay.innerText;
         value = lowerDisplay.innerText;
-        chceckingValue(value); // <= Muszę dodać funkcję która zbiera zmienne!!!
         lowerDisplay.innerText = "";
-        value = "";
+        chceckingValue(value);
+
     }
 };
+
+function equal() {
+
+}
 // Funkcja wykrywa jaki to jest rodzaj działania
 function chceckingValue(zmienna) {
+
     if (zmienna.includes("+")) {
-        console.log("Dodawanie");
+        firstValue = zmienna.slice(0, zmienna.indexOf("+"));
+        secondValue = zmienna.slice(zmienna.indexOf("+") + 1, zmienna.length);
+        add(Number(firstValue), Number(secondValue));
     } else if (zmienna.includes("-")) {
-        console.log("Odejmowanie");
+        firstValue = zmienna.slice(0, zmienna.indexOf("-"));
+        secondValue = zmienna.slice(zmienna.indexOf("-") + 1, zmienna.length);
+        subtract(Number(firstValue), Number(secondValue));
     } else if (zmienna.includes("*")) {
-        console.log("Mnożenie");
+        firstValue = zmienna.slice(0, zmienna.indexOf("*"));
+        secondValue = zmienna.slice(zmienna.indexOf("*") + 1, zmienna.length);
+        multiply(Number(firstValue), Number(secondValue));
     } else if (zmienna.includes("/")) {
-        console.log("Dzielenie");
+        firstValue = zmienna.slice(0, zmienna.indexOf("/"));
+        secondValue = zmienna.slice(zmienna.indexOf("/") + 1, zmienna.length);
+        divide(Number(firstValue), Number(secondValue));
     }
 }
 
 function add(a, b) {
-    return a + b;
+    let resault = a + b;
+    lowerDisplay.innerText = resault;
 };
 
 function subtract(a, b) {
-    return a - b;
+    let resault = a - b;
+    lowerDisplay.innerText = resault;
 };
 
 function multiply(a, b) {
-    return a * b;
+    let resault = a * b;
+    lowerDisplay.innerText = resault;
 };
 
 function divide(a, b) {
-    return a / b;
+    let resault = a / b;
+    lowerDisplay.innerText = resault;
 }
